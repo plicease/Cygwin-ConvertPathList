@@ -4,6 +4,10 @@
 #include "XSUB.h"
 #include "ppport.h"
 
+/*
+ * http://cygwin.com/cygwin-api/func-cygwin-conv-path-list.html
+ */
+
 MODULE = Cygwin::ConvertPathList    PACKAGE = Cygwin::ConvertPathList
 
 SV *
