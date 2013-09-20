@@ -2,6 +2,7 @@ package Cygwin::ConvertPathList;
 
 use strict;
 use warnings;
+use 5.008008;
 use base qw( Exporter );
 
 our @EXPORT = qw( win_to_posix_path_list posix_to_win_path_list );

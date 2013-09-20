@@ -1,4 +1,5 @@
 #include <sys/cygwin.h>
+#include <cygwin/version.h>
 #include <string.h>
 #include "EXTERN.h"
 #include "perl.h"
@@ -66,5 +67,17 @@ posix_to_win_path_list(posix_path)
           }
           safefree(win_path);
         }
+    OUTPUT:
+        RETVAL
+
+
+
+int
+_has_unicode()
+    CODE:
+        if(CYGWIN_VERSION_API_MINOR)
+          RETVAL = 1;
+        else
+          RETVAL = 0;
     OUTPUT:
         RETVAL
