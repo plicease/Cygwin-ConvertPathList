@@ -2,16 +2,16 @@ package Cygwin::ConvertPathList;
 
 use strict;
 use warnings;
-use Exporter;
+use base qw( Exporter );
 
-our @EXPORT_OK = qw( win_to_posix_path_list posix_to_win_path_list );
+our @EXPORT = qw( win_to_posix_path_list posix_to_win_path_list );
 
 # ABSTRACT: Convert path lists from POSIX ($PATH) to Windows (%PATH%) and back
 # VERSION
 
 =head1 SYNOPSIS
 
- use Cygwin::ConvertPathList qw( win_to_posix_path_list posix_to_win_path_list );
+ use Cygwin::ConvertPathList;
  
  # prints /cygdrive/c/windows:/cygdrive/c/windows/system32
  print win_to_posix_path_list("c:\\windows;c:\\windows\\system32");
