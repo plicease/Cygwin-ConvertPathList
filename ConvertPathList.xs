@@ -26,26 +26,37 @@ win_to_posix_path_list(win_path_sv)
     CODE:
         win_path = SvPV(win_path_sv, len);
         is_utf8 = SvUTF8(win_path_sv);
-        size = cygwin_conv_path_list(CCP_WIN_A_TO_POSIX, win_path, NULL, 0);
-        if(size < 0)
+        if(is_utf8)
         {
-          croak(error_str);
+#if (CYGWIN_VERSION_API_MINOR >= 181)
+          croak("FIXME");
+#else
+          croak("Unicode not supported by this Perl/Cygwin combination");
+#endif
         }
         else
         {
-          posix_path = (char*) safemalloc(size);
-          if(cygwin_conv_path_list(CCP_WIN_A_TO_POSIX, win_path, posix_path, size))
+          size = cygwin_conv_path_list(CCP_WIN_A_TO_POSIX, win_path, NULL, 0);
+          if(size < 0)
           {
             croak(error_str);
           }
           else
           {
-            RETVAL = newSVpv(posix_path,0);
+            posix_path = (char*) safemalloc(size);
+            if(cygwin_conv_path_list(CCP_WIN_A_TO_POSIX, win_path, posix_path, size))
+            {
+              croak(error_str);
+            }
+            else
+            {
+              RETVAL = newSVpv(posix_path,0);
+            }
+            safefree(posix_path);
           }
-          safefree(posix_path);
         }
     OUTPUT:
-        RETVAL
+      RETVAL
 
 SV *
 posix_to_win_path_list(posix_path_sv)
@@ -59,23 +70,34 @@ posix_to_win_path_list(posix_path_sv)
     CODE:
         posix_path = SvPV(posix_path_sv, len);
         is_utf8 = SvUTF8(posix_path_sv);
-        size = cygwin_conv_path_list(CCP_POSIX_TO_WIN_A, posix_path, NULL, 0);
-        if(size < 0)
+        if(is_utf8)
         {
-          croak(error_str);
+#if (CYGWIN_VERSION_API_MINOR >= 181)
+          croak("FIXME");
+#else
+          croak("Unicode not supported by this Perl/Cygwin combination");
+#endif
         }
         else
         {
-          win_path = (char*) safemalloc(size);
-          if(cygwin_conv_path_list(CCP_POSIX_TO_WIN_A, posix_path, win_path, size))
+          size = cygwin_conv_path_list(CCP_POSIX_TO_WIN_A, posix_path, NULL, 0);
+          if(size < 0)
           {
             croak(error_str);
           }
           else
           {
-            RETVAL = newSVpv(win_path,0);
+            win_path = (char*) safemalloc(size);
+            if(cygwin_conv_path_list(CCP_POSIX_TO_WIN_A, posix_path, win_path, size))
+            {
+              croak(error_str);
+            }
+            else
+            {
+              RETVAL = newSVpv(win_path,0);
+            }
+            safefree(win_path);
           }
-          safefree(win_path);
         }
     OUTPUT:
         RETVAL
