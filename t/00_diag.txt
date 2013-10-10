@@ -2,3 +2,4 @@ Exporter
 ExtUtils::MakeMaker
 Test::More
 XSLoader
+utf8::all

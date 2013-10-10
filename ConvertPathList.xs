@@ -75,9 +75,10 @@ posix_to_win_path_list(posix_path)
 int
 _has_unicode()
     CODE:
-        if(CYGWIN_VERSION_API_MINOR >= 181)
+#if (CYGWIN_VERSION_API_MINOR >= 181)
           RETVAL = 1;
-        else
+#else
           RETVAL = 0;
+#endif
     OUTPUT:
         RETVAL
